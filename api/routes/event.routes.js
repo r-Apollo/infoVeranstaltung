@@ -21,7 +21,9 @@ router.param("password", (req, res, next, password) => {
     next()
 })
 
-router.get(("/"), eventCtrl.list);
+router.get(("/:password"), eventCtrl.list);
+
+router.get("/:password/:eventID", eventCtrl.info)
 
 router.post("/:password", eventMiddleware.validatePostRequest, eventCtrl.create)
 

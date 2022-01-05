@@ -3,6 +3,7 @@ import eventRoutes from "./routes/event.routes.js";
 import anmeldeRoutes from "./routes/anmeldung.routes.js"
 import cors from "cors";
 import dotenv from "dotenv";
+import "./server.js"
 
 dotenv.config();
 

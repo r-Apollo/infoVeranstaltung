@@ -1,5 +1,4 @@
 import EventModel from "../models/event.model.js"
-import "../server.js"
 
 
 const list = async (req, res) => {
@@ -7,6 +6,25 @@ const list = async (req, res) => {
         res.send(await EventModel.find())
     } catch (err) {
         res.status(500).send(err)
+    }
+}
+
+const info = async (req, res) => {
+    try {
+        const Event = await EventModel.findById(req.params.eventID)
+
+        let personCount = 0
+        Array.from(Event.Anmeldungen).forEach(anmeldung => personCount += anmeldung.Personen)
+
+        const resp = {
+            _id: Event._id,
+            Datum: Event.Datum,
+            Uhrzeit: Event.Uhrzeit,
+            Personen: personCount
+        }
+        res.send(resp)
+    } catch (err) {
+        res.status(500).json({error: err})
     }
 }
 
@@ -47,4 +65,4 @@ const remove = async (req, res) => {
     }
 }
 
-export default { list, create, update, remove }
+export default { list, info, create, update, remove }
