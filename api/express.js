@@ -12,6 +12,6 @@ app.use(cors())
 
 app.use("/", eventRoutes)
 
-app.listen(process.env.PORT | 3001,  () => {
-    console.info(`Api running on http://localhost:${process.env.PORT | 3001}.`)
+app.listen(process.env.PORT | 8001,  () => {
+    console.info(`Api running on http://localhost:${process.env.PORT | 8001}.`)
 })

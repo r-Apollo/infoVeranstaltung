@@ -1,4 +1,4 @@
-const validateRequest = (req, res, next) => {
+const validatePostRequest = (req, res, next) => {
     //Checks if data is given
     if (!req.body.Datum) return res.status(400).json({error: "Es muss ein Datum angegeben werden."});
     if (!req.body.Uhrzeit) return res.status(400).json({error: "Es muss eine Uhrzeit angegeben werden."});
@@ -9,4 +9,6 @@ const validateRequest = (req, res, next) => {
     next();
 }
 
-export default { validateRequest };
+//TODO Add middleware for update so that the user who registers himself actually does exist in the users db.
+
+export default { validatePostRequest };
