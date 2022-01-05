@@ -1,6 +1,7 @@
 import express from "express";
 import anmeldeCtrl from "../controllers/anmeldung.controller.js";
 import EventModel from "../models/event.model.js";
+import anmeldungMiddleware from "../middleware/anmeldung.middleware.js";
 
 const router = express.Router();
 
@@ -22,6 +23,6 @@ router.param("password", (req, res, next, password) => {
 
 router.get("/", anmeldeCtrl.list)
 
-router.post("/:password/:eventID", anmeldeCtrl.create)
+router.post("/:password/:eventID", anmeldungMiddleware.checkIfAlreadyRegistered, anmeldeCtrl.create)
 
 export default router
