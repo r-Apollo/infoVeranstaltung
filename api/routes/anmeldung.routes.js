@@ -1,7 +1,6 @@
 import express from "express";
-import eventCtrl from "../controllers/event.controller.js";
-import eventMiddleware from "../middleware/event.middleware.js";
-import EventModel from "../models/event.model.js"
+import anmeldeCtrl from "../controllers/anmeldung.controller.js";
+import EventModel from "../models/event.model.js";
 
 const router = express.Router();
 
@@ -21,13 +20,8 @@ router.param("password", (req, res, next, password) => {
     next()
 })
 
-router.get(("/"), eventCtrl.list);
+router.get("/", anmeldeCtrl.list)
 
-router.post("/:password", eventMiddleware.validatePostRequest, eventCtrl.create)
+router.post("/:password/:eventID", anmeldeCtrl.create)
 
-router.patch("/:password/:eventID", eventCtrl.update)
-
-router.delete("/:password/:eventID", eventMiddleware.validateDeleteRequest, eventCtrl.remove)
-
-
-export default router;
+export default router

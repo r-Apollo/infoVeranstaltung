@@ -1,3 +1,5 @@
+import EventModel from "../models/event.model.js";
+
 const validatePostRequest = (req, res, next) => {
     //Checks if data is given
     if (!req.body.Datum) return res.status(400).json({error: "Es muss ein Datum angegeben werden."});
@@ -11,4 +13,9 @@ const validatePostRequest = (req, res, next) => {
 
 //TODO Add middleware for update so that the user who registers himself actually does exist in the users db.
 
-export default { validatePostRequest };
+const validateDeleteRequest = async (req, res, next) => {
+    if (!(await EventModel.findById(req.params.eventID))) return res.status(400).json({error: "Dieses Event existiert nicht mehr."})
+    next()
+}
+
+export default { validatePostRequest, validateDeleteRequest };

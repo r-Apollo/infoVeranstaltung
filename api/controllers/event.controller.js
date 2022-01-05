@@ -11,32 +11,40 @@ const list = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    const Event = new EventModel(req.body)
     try {
+        const Event = new EventModel(req.body)
         await Event.save(),
         res.status(201).json(Event)
     } catch (err) {
-        res.status(400).json({err})
+        res.status(500).json({err})
     }
 }
 
 const update = async (req, res) => {
-    if (req.body.Datum) await EventModel.updateOne({_id: req.params.eventID}, {Datum: req.body.Datum})
-    if (req.body.Uhrzeit) await EventModel.updateOne({_id: req.params.eventID}, {Uhrzeit: req.body.Uhrzeit})
+    try {
+        if (req.body.Datum) await EventModel.updateOne({_id: req.params.eventID}, {Datum: req.body.Datum})
+        if (req.body.Uhrzeit) await EventModel.updateOne({_id: req.params.eventID}, {Uhrzeit: req.body.Uhrzeit})
 
-    //Adds a registration to the Anmeldungen Array
-    if (req.body.Anmeldung) {
-        await EventModel.updateOne(
-            {_id: req.params.eventID}, 
-            {$push: {Anmeldungen: [req.body.Anmeldung]}}
-        )
+        //Adds a registration to the Anmeldungen Array
+        if (req.body.Anmeldung) {
+            await EventModel.updateOne(
+                {_id: req.params.eventID}, 
+                {$push: {Anmeldungen: [req.body.Anmeldung]}}
+            )
+        }
+        res.status(201).json(await EventModel.findById(req.params.eventID))
+    } catch (err) {
+        res.status(500).json({err})
     }
-    res.status(201).json(await EventModel.findById(req.params.eventID))
 }
 
 const remove = async (req, res) => {
-    const Event = await EventModel.findOneAndDelete({_id: req.params.eventID})
-    res.status(200).json(Event)
+    try {
+        const Event = await EventModel.findOneAndDelete({_id: req.params.eventID})
+        res.status(200).json(Event)
+    } catch (err) {
+        res.status(500).json({err})
+    }
 }
 
 export default { list, create, update, remove }
