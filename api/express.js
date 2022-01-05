@@ -15,10 +15,13 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 
+//Events
 app.use("/api/events", eventRoutes)
 
+//Anmeldung
 app.use("/api/anmeldung", anmeldeRoutes)
 
+//Generic 404
 app.get("*", (req, res) => {
     res.status(404).sendFile(path.join(__dirname, '/index.html'))
 })
